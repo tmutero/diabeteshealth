@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+
+
+
+        <div class="container">
+        <div class="row">
+            <!-- left column -->
+
+            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Add
+                Doctor
+            </button>
+            <table class="table table-responsive">
+                <thead class="alert-success">
+
+                <tr>
+                    <th>Doctor Name</th>
+                    <th>Contact </th>
+                    <th>Facility</th>
+                    <th>Active</th>
+                    <th>Longtitude</th>
+                    <th>Latitude</th>
+                    {% if user.is_superuser %}
+                        <th>Action</th>
+                    {% else %}
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for facility in facilities %}
+                    <tr>
+                        <td>{{ facility.name }}</td>
+                        <td>{{ facility.contact }}</td>
+                        <td>{{ facility.city.name }}</td>
+                        <td>{{ facility.is_active }}</td>
+                        <td>{{ facility.longtitude }}</td>
+                        <td>{{ facility.latitude }}</td>
+                        {% if user.is_superuser %}
+                            <td>
+                                <center><a class="btn btn-sm btn-warning edit" name="{{ disease.id }}">Edit</a>
+                                    <a class="btn btn-sm btn-success delete" name="{{ disease.id }}">Delete</a>
+                                </center>
+                            </td>
+                        {% else %}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+        <!-- /.box-body -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add Facility</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <form class="form-horizontal" action="create_facility" method="POST">
+                            {% csrf_token %}
+
+                            <div class="box box-warning">
+
+                                <!-- /.box-header -->
+                                <div class="box-body">
+
+                                    <!-- text input -->
+                                    <div class="form-group">
+                                        <label>Facility name </label>
+                                        <input type="text" class="form-control" placeholder="Enter facility name"
+                                               name="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contact Details </label>
+                                        <input type="text" class="form-control" placeholder="Enter facility name"
+                                               name="contact">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="city">City</label>
+
+
+                                            <select name="city" id="city" class="form-control">
+                                                {% for city in cities %}
+                                                    <option value="{{ city.id }}">{{ city.name }}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                    </div>
+
+
+                                    <div class="box-footer">
+
+                                        <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        </div>
+
+
+
+
+
+{% endblock %}

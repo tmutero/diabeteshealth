@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/user.css' %}"/>
+    <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.dataTables.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'js/bootstrap.min.js' %}"/>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">Diabetes System</a>
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span
+                    class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span
+                    class="icon-bar"></span></button>
+        </div>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav">
+                {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                        <li role="presentation"><a href="#">Doctors </a></li>
+                        <li role="presentation"><a href="{% url 'read_symptom' %}">Training Data</a></li>
+                        <li role="presentation"><a href="{% url 'read_disease' %}">Diseases</a></li>
+                        <li role="presentation"><a href="{% url 'read_facility' %}">Facility </a></li>
+                        <li role="presentation"><a href="#">Patients</a></li>
+                        <li role="presentation"><a href="#">Users</a></li>
+                        <li role="presentation"><a href="#">Welcome : {{ user.username }}</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+
+                        <li role="presentation"><a href="#">Welcome : {{ user.username }}</a></li>
+
+                        {
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+
+                    {% endif %}
+                    {% if user.is_staff %}
+                        <li role="presentation"><a href="#">Patients</a></li>
+                        <li role="presentation"><a href="#">Appointments</a></li>
+                        <li role="presentation"><a href="#">Welcome Doc: {{ user.username }}</a></li>
+                        <li role="presentation"><a href="{% url 'logout' %}">Logout</a></li>
+                    {% endif %}
+
+
+                {% endif %}
+
+
+            </ul>
+            <a href="{% url 'signup' %}" class="btn btn-primary navbar-btn navbar-right" role="button">
+                SIGN UP
+            </a>
+
+
+        </div>
+    </div>
+</nav>
+
+{% block content %}
+{% endblock %}
+<footer class="site-footer">
+    <div class="container">
+        <hr>
+        <div class="row">
+            <div class="col-sm-6">
+                <h5>Nyasha © 2018</h5></div>
+            <div class="col-sm-6 social-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i
+                    class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+        </div>
+    </div>
+</footer>
+
+
+</body>
+<script src="{% static 'js/jquery-3.2.1.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#table').DataTable();
+    });
+</script>
+</html>

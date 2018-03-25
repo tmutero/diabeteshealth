@@ -1,25 +1,21 @@
 
-
-from sklearn.cross_validation import train_test_split
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score
-import scipy
+import  scipy
+import  pydotplus
+from  sklearn.datasets import load_iris
 
 
 
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
-
+from .forms import SignUpForm
 from .models import City
 from .models import Disease, Facility
 from .models import Symptoms
 
-
-
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -28,14 +24,14 @@ def signup(request):
             login(request, user)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
 
 # methods and functions
 # CRUD disease
 def create_disease(request):
-    print("===============================")
+
 
     disease = Disease(name=request.POST['name'], description=request.POST['description'])
 
@@ -71,7 +67,7 @@ def delete_disease(request, id):
 
 # methods URL symptoms
 def create_symptom(request):
-    print("===============================")
+
 
     symptom = Symptoms(name=request.POST['name'], description=request.POST['description'],
                        disease_id=request.POST['disease'])
@@ -81,17 +77,17 @@ def create_symptom(request):
 
 
 def read_symptom(request):
-    symptoms = Symptoms.objects.all()
-    diseases = Disease.objects.all()
-    context = {'symptoms': symptoms,
-               'diseases': diseases}
-    return render(request, 'symptom/list.html', context)
+    symptom = Symptoms.objects.all()
+    print("=========================")
+    print(symptom)
+    context = {'symptom': symptom}
+    return render(request, 'trainingData/list.html', context)
 
 
 def edit_symptom(request, id):
     diseases = Disease.objects.get(id=id)
     context = {'disease': diseases}
-    return render(request, 'symptom/edit.html', context)
+    return render(request, 'trainingData/edit.html', context)
 
 
 def update_symptom(request, id):
@@ -99,23 +95,25 @@ def update_symptom(request, id):
     disease.firstname = request.POST['firstname']
     disease.lastname = request.POST['lastname']
     disease.save()
-    return redirect('/symptom/')
+    return redirect('/trainingData/')
 
 
 def delete_symptom(request, id):
     disease = Disease.objects.get(id=id)
     disease.delete()
-    return redirect('/symptom/')
+    return redirect('/trainingData/')
 
 
 # URLS facility
 def create_facility(request):
+
+
+    facility = Facility(name=request.POST['name'], contact=request.POST['contact'],
+                        city=request.POST['city'])
     print("===============================")
+    print(city=request.POST['city'])
 
-    symptom = Symptoms(name=request.POST['name'], description=request.POST['description'],
-                       disease_id=request.POST['disease'])
-
-    symptom.save()
+    facility.save()
     return redirect('read_facility')
 
 
@@ -163,46 +161,13 @@ def delete_city(request, id):
 
 #
 def process(request):
-    # symptom = name=request.POST['name'],description=request.POST['description'],disease_id=request.POST['disease']
+    # trainingData = name=request.POST['name'],description=request.POST['description'],disease_id=request.POST['disease']
 
-    symptom=Symptoms.objects.all()
+    symptom =Symptoms.objects.all()
 
+    binary = pd.read_csv('http://dni-institute.in/blogs/wp-content/uploads/2017/07/dt_data.csv')
+    print(binary.describe())
 
-
-    balance_data = pd.read_csv('uploads/dataset.csv', sep=',',header=None)
-    d = [balance_data]
-    print("------------------------------------------",d)
-    print ("Dataset Lenght:: ", len(balance_data))
-    print ("Dataset Shape:: ", balance_data.shape)
-
-    X = balance_data.values[:, 1:7]
-    Y = balance_data.values[:, 8]
-    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.3, random_state=100)
-
-    clf_gini = DecisionTreeClassifier(criterion="gini", random_state=100,
-                                      max_depth=3, min_samples_leaf=9)
-    clf_gini.fit(X_train, y_train)
-    DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=3,
-                           max_features=None, max_leaf_nodes=None, min_samples_leaf=9,
-                           min_samples_split=2, min_weight_fraction_leaf=0.0,
-                           presort=False, random_state=100, splitter='best')
-
-    #clf_gini.predict([[6, 0, 0, 0, 0, 0]])
-
-
-    y_pred = clf_gini.predict(X_test)
-    y_d=clf_gini.predict(X_test,check_input=1)
-
-
-    print("---------------------Result-------------------------------")
-    print("......................Disease  ...............................",y_d)
-    print ("Accuracy is ", accuracy_score(y_test, y_pred) * 100)
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-
-
-
-
-    print("----------------------------------------------")
 
 
     return redirect('read_disease')

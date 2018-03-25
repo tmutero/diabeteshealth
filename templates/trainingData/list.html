@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}Symptom{% endblock %}
+
+{% block content %}
+
+
+
+
+        <div class="container">
+        <div class="row">
+                     <table id="table" class="table table-bordered">
+                <thead class="alert-success">
+
+
+                <tr>
+                    <th>Age</th>
+                    <th>Glucose Level</th>
+                    <th>Insulin</th>
+                    <th>Mass</th>
+                    <th>Predegree</th>
+                    <th>Pregnant Times</th>
+                    <th>Pressure Levels</th>
+                    <th>Skin</th>
+                    <th>Classification Variable</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for symptom in symptom %}
+                    <tr>
+                        <td>{{ symptom.age }}</td>
+                        <td>{{ symptom.glucose }}</td>
+                        <td>{{ symptom.insulin }}</td>
+                        <td>{{ symptom.mass }}</td>
+                        <td>{{ symptom.predegree }}</td>
+                        <td>{{ symptom.pregnant }}</td>
+                        <td>{{ symptom.pressure }}</td>
+                        <td>{{ symptom.skin }}</td>
+                        <td>{{ symptom.variable }}</td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+        <!-- /.box-body -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add Symptom</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <form class="form-horizontal" action="create_symptom" method="POST">
+                            {% csrf_token %}
+
+                            <div class="box box-warning">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Add Disease</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+
+                                    <!-- text input -->
+                                    <div class="form-group">
+                                        <label>Symptom </label>
+                                        <input type="text" class="form-control" placeholder="Enter symptom name"
+                                               name="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description </label>
+                                        <input type="text" class="form-control" placeholder="Enter symptom description"
+                                               name="description">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Disease Related</label>
+
+                                        <select name="disease" class="form-control">
+                                            {% for disease in diseases %}
+                                                <option value="{{ disease.id }}">{{ disease.name }}</option>
+                                            {% endfor %}
+                                        </select>
+
+                                    </div>
+                                    <div class="box-footer">
+                                        <button class="btn btn-default">Cancel</button>
+                                        <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+{% endblock %}
+
