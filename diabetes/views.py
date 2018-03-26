@@ -1,15 +1,16 @@
-
-import  scipy
-import  pydotplus
-from  sklearn.datasets import load_iris
-
+import numpy as np
+import pandas as pd
+from sklearn.cross_validation import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from sklearn import tree
 
 
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+#from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
-from .models import City
+from .models import City, Doctors
 from .models import Disease, Facility
 from .models import Symptoms
 
@@ -138,7 +139,7 @@ def delete_facility(request, id):
     disease.delete()
     return redirect('/facility/')
 
-
+# City Panel
 def create_city(request):
     city = City(name=request.POST['name'])
 
@@ -159,14 +160,49 @@ def delete_city(request, id):
     return redirect('/city/')
 
 
-#
+#Doctor Panel
+def create_doctor(request):
+    doctor = Doctors(name=request.POST['name'], surname=request.POST['surname'],
+                     gender=request.POST['gender'],contact=request.POST['contact'],
+                     facility=request.POST['facility'])
+
+    doctor.save()
+    return redirect('read_doctor')
+
+
+def read_doctor(request):
+    doctors = Doctors.objects.all()
+    facilities = Facility.objects.all()
+
+
+    context = {'doctors': doctors,
+               'facilities': facilities,}
+    return render(request, 'doctor/list.html', context)
+
+
+def delete_doctor(request, id):
+    disease = Disease.objects.get(id=id)
+    disease.delete()
+    return redirect('/city/')
+
+
+
+
+
+
+
+
+
+
+
+
+
 def process(request):
     # trainingData = name=request.POST['name'],description=request.POST['description'],disease_id=request.POST['disease']
 
     symptom =Symptoms.objects.all()
 
-    binary = pd.read_csv('http://dni-institute.in/blogs/wp-content/uploads/2017/07/dt_data.csv')
-    print(binary.describe())
+
 
 
 

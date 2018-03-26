@@ -24,7 +24,7 @@
             <ul class="nav navbar-nav">
                 {% if user.is_authenticated %}
                     {% if user.is_superuser %}
-                        <li role="presentation"><a href="#">Doctors </a></li>
+                        <li role="presentation"><a href="{% url 'read_doctor' %}">Doctors </a></li>
                         <li role="presentation"><a href="{% url 'read_symptom' %}">Training Data</a></li>
                         <li role="presentation"><a href="{% url 'read_disease' %}">Diseases</a></li>
                         <li role="presentation"><a href="{% url 'read_facility' %}">Facility </a></li>

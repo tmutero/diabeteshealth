@@ -4,25 +4,31 @@
 
 {% block content %}
 
+<ol class="breadcrumb">
+        <li><a href="#"><span>Doctors</span></a></li>
+        <li><a href="#"><span>Details</span></a></li>
+        <li class="active"><span>List </span></li>
+    </ol>
 
-
-        <div class="container">
+    <div class="container">
         <div class="row">
             <!-- left column -->
 
             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Add
                 Doctor
             </button>
-            <table class="table table-responsive">
+            <table class="table table-responsive" id="table">
                 <thead class="alert-success">
 
                 <tr>
                     <th>Doctor Name</th>
-                    <th>Contact </th>
+                    <th>Surname</th>
+                    <th>Gender</th>
+                    <th>Contact</th>
                     <th>Facility</th>
-                    <th>Active</th>
-                    <th>Longtitude</th>
-                    <th>Latitude</th>
+                    <th>Facility City</th>
+
+
                     {% if user.is_superuser %}
                         <th>Action</th>
                     {% else %}
@@ -30,18 +36,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for facility in facilities %}
+                {% for doctor in doctors %}
                     <tr>
-                        <td>{{ facility.name }}</td>
-                        <td>{{ facility.contact }}</td>
-                        <td>{{ facility.city.name }}</td>
-                        <td>{{ facility.is_active }}</td>
-                        <td>{{ facility.longtitude }}</td>
-                        <td>{{ facility.latitude }}</td>
+                        <td>{{ doctor.name }}</td>
+                        <td>{{ doctor.surname }}</td>
+                        <td>{{ doctor.sex }}</td>
+                        <td>{{ doctor.contact }}</td>
+                        <td>{{ doctor.facility.name }}</td>
+                        <td>{{ doctor.facility.city.name }}</td>
+
                         {% if user.is_superuser %}
                             <td>
-                                <center><a class="btn btn-sm btn-warning edit" name="{{ disease.id }}">Edit</a>
-                                    <a class="btn btn-sm btn-success delete" name="{{ disease.id }}">Delete</a>
+                                <center><a class="btn btn-sm btn-warning edit" name="{{ doctor.id }}">Edit</a>
+                                    <a class="btn btn-sm btn-success delete" name="{{ doctor.id }}">Delete</a>
                                 </center>
                             </td>
                         {% else %}
@@ -63,11 +70,11 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add Facility</h4>
+                        <h4 class="modal-title">Add Doctor</h4>
                     </div>
                     <div class="modal-body">
 
-                        <form class="form-horizontal" action="create_facility" method="POST">
+                        <form class="form-horizontal" action="create_doctor" method="POST">
                             {% csrf_token %}
 
                             <div class="box box-warning">
@@ -77,24 +84,36 @@
 
                                     <!-- text input -->
                                     <div class="form-group">
-                                        <label>Facility name </label>
-                                        <input type="text" class="form-control" placeholder="Enter facility name"
+                                        <label>Firstname </label>
+                                        <input type="text" class="form-control" placeholder="Enter doctor name"
                                                name="name">
                                     </div>
                                     <div class="form-group">
+                                        <label>Surname </label>
+                                        <input type="text" class="form-control" placeholder="Enter doctor name"
+                                               name="surname">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                       <select name="genger" for="gender" class="form-control">
+                                           <option value="M">Male</option>
+                                           <option value="F">Female</option>
+                                       </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Contact Details </label>
-                                        <input type="text" class="form-control" placeholder="Enter facility name"
+                                        <input type="text" class="form-control" placeholder="Enter Contact details"
                                                name="contact">
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-sm-2" for="city">City</label>
+                                        <label  for="facility">Facility</label>
 
 
-                                            <select name="city" id="city" class="form-control">
-                                                {% for city in cities %}
-                                                    <option value="{{ city.id }}">{{ city.name }}</option>
-                                                {% endfor %}
-                                            </select>
+                                        <select name="facility" id="facility" class="form-control">
+                                            {% for facility in facilities %}
+                                                <option value="{{ facility.id }}">{{ facility.name }}</option>
+                                            {% endfor %}
+                                        </select>
 
                                     </div>
 
@@ -121,7 +140,7 @@
         </div>
 
 
-        </div>
+    </div>
 
 
 
