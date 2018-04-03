@@ -1,0 +1,43 @@
+ <ol class="breadcrumb">
+            <li><a href="#"><span>Results</span></a></li>
+            <li><a href="#"><span>Diabetes Types</span></a></li>
+            <li class="active"><span>List </span></li>
+        </ol>
+  <div class="panel panel-success">
+     <div class="panel-heading">Results</div>
+      <div class="panel-body"></div>
+    </div>
+
+
+<table class="table table-bordered">
+<div class="alert alert-info">
+    <center></center>
+  <strong> Doctors found nearest to you</strong>
+</div>
+    <thead class="alert-success">
+    <tr>
+        <th>Doctor</th>
+        <th>Facility</th>
+        <th>Contact Details</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for doctor in doctors %}
+        <tr>
+            <td>{{ doctor.surname }}</td>
+            <td>{{ doctor.facility.name }}</td>
+            <td>{{ doctor.contact }}</td>
+
+            <td>
+                <center><a class="btn btn-sm btn-success" href="{% url 'delete_symptom' doctor.id %}"><span
+                        class="glyphicon glyphicon-check"></span> Place Appointment</a></center>
+            </td>
+
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</div>

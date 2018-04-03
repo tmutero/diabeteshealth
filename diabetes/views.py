@@ -1,13 +1,17 @@
-import numpy as np
-import pandas as pd
-from sklearn.cross_validation import train_test_split
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score
-from sklearn import tree
 
 
+import  matplotlib
+
+import  sklearn.datasets
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.utils import dates
+
+from django.http import HttpResponse
+from django.template import loader
 from django.contrib.auth import login, authenticate
-#from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
 from .models import City, Doctors
@@ -110,9 +114,9 @@ def create_facility(request):
 
 
     facility = Facility(name=request.POST['name'], contact=request.POST['contact'],
-                        city=request.POST['city'])
+                        city_id=request.POST['city'])
     print("===============================")
-    print(city=request.POST['city'])
+
 
     facility.save()
     return redirect('read_facility')
@@ -120,6 +124,9 @@ def create_facility(request):
 
 def read_facility(request):
     facilities = Facility.objects.all()
+
+
+ 
     cities = City.objects.all()
     context = {'facilities': facilities,
                'cities': cities}
@@ -163,8 +170,8 @@ def delete_city(request, id):
 #Doctor Panel
 def create_doctor(request):
     doctor = Doctors(name=request.POST['name'], surname=request.POST['surname'],
-                     gender=request.POST['gender'],contact=request.POST['contact'],
-                     facility=request.POST['facility'])
+                     sex=request.POST['sex'],contact=request.POST['contact'],
+                     facility_id=request.POST['facility'])
 
     doctor.save()
     return redirect('read_doctor')
@@ -185,25 +192,20 @@ def delete_doctor(request, id):
     disease.delete()
     return redirect('/city/')
 
-
-
-
-
-
-
-
-
-
-
-
-
 def process(request):
-    # trainingData = name=request.POST['name'],description=request.POST['description'],disease_id=request.POST['disease']
+#    trainingData = Symptoms(pregnant=request.POST['pregnant'],glucose=request.POST['glucose'],skin=request.POST['skin'],diastolic=request.POST['diastolic'],gender=request.POST['gender'],insulin=request.POST['insulin']
+ #                           )
+    current=User.objects.filter(username="tmutero")
 
-    symptom =Symptoms.objects.all()
+    print(current)
 
+    # print("___________________________________________________________________")
+    # for p in Doctors.objects.raw('SELECT id ,name,sex FROM diabetes_doctors'):
+    #     print("==============================")
+    #     print(p)
 
+    doctors =Doctors.objects.all()
 
-
-
-    return redirect('read_disease')
+    context = {'member': "", 'doctors': doctors, }
+    template = loader.get_template('diagnosis.html')
+    return HttpResponse(template.render(context, request))

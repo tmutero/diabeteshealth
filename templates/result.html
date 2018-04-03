@@ -1,0 +1,21 @@
+<table class="table table-bordered">
+    <thead class="alert-success">
+        <tr>
+            <th>Doctor </th>
+            <th>Facility</th>
+            <th>Contact Details</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for doctor in doctors %}
+        <tr>
+            <td>{{ doctor.surname }}</td>
+            <td>{{ doctor.lastname }}</td>
+            <td>{{ doctor.contact }}</td>
+
+            <td><center><a class="btn btn-sm btn-warning edit" name="{{ member.id }}">Edit</a> <a class="btn btn-sm btn-danger delete" name="{{ doctor.id }}">Place Appointment</a></center></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

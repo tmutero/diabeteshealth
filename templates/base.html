@@ -40,12 +40,7 @@
                         <li><a href="{% url 'logout' %}">Logout</a></li>
 
                     {% endif %}
-                    {% if user.is_staff %}
-                        <li role="presentation"><a href="#">Patients</a></li>
-                        <li role="presentation"><a href="#">Appointments</a></li>
-                        <li role="presentation"><a href="#">Welcome Doc: {{ user.username }}</a></li>
-                        <li role="presentation"><a href="{% url 'logout' %}">Logout</a></li>
-                    {% endif %}
+
 
 
                 {% endif %}

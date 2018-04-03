@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.gis.db import models as gis_models
-from django.contrib.gis import geos
+
 
 
 
@@ -49,7 +48,7 @@ class Doctors(models.Model):
     surname = models.CharField(max_length=50)
     contact = models.CharField(max_length=50)
     sex = models.CharField(max_length=50)
-    date_created=models.DateField()
+    date_created=models.DateField(auto_now=True)
     facility=models.ForeignKey('Facility', on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -69,15 +68,13 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
-class Shop(models.Model):
-    name = models.CharField(max_length=200)
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
-    location = gis_models.PointField(u"longitude/latitude",
-                                     geography=True, blank=True, null=True)
-
-    gis = gis_models.GeoManager()
-    objects = models.Manager()
+class Appointment(models.Model):
+    #patient
+    doctor = models.ForeignKey('Doctors', on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.name
+
