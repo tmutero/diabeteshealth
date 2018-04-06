@@ -66,4 +66,6 @@ urlpatterns = [
 
 
     url(r'^process$', views.process, name='process$'),
+    url(r'^appointment(?P<id>\d+)$', views.appointment, name='appointment'),
+    url(r'^read_appointment$',views.read_appointment, name='read_appointment'),
 ]

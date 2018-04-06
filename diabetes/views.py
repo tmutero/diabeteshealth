@@ -21,7 +21,7 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm
 from .models import City, Doctors
 from .models import Disease, Facility
-from .models import Symptoms
+from .models import Symptoms,Appointment
 
 def signup(request):
     if request.method == 'POST':
@@ -210,25 +210,25 @@ def process(request):
     mass = request.POST['mass']
     skin = request.POST['skin']
     pedegree = request.POST['pedegree']
-    # pressure = request.POST['pressure']
-    # insulin = request.POST['insulin']
-    #age = request.POST['age']
+    pressure = request.POST['pressure']
+    insulin = request.POST['insulin']
+    age = request.POST['age']
     print("========================Data Set================================")
-    print(pregnant)
-    #print(age)
-    print(pedegree)
-    # print(insulin)
-    # print(pressure)
-    print(skin)
-    print(mass)
-    print(glucose)
+    print("----------Pregnanct",int(pregnant))
+    print("-----------age",age)
+    print("----------Pedegree",pedegree)
+    print("----------Insulin",insulin)
+    print("----------Pressure",pressure)
+    print("----------Skin",skin)
+    print("----------MAss",mass)
+    print("----------Glucose",glucose)
     print("________________________End Of Data Set ________________________")
 
     request.user.id
     print("-----------------------------------------------")
     print( request.user.id)
 
-    data = pd.read_csv("uploads/dataset2.csv")
+    data = pd.read_csv("uploads/final.csv")
 
 # Convert categorical variable to numeric
 
@@ -236,10 +236,14 @@ def process(request):
 
 # Cleaning dataset of NaN
     data=data[[
-    "height",
-    "weight",
+    "pregnant",
+    "glucose",
+    "pressure",
+    "skin",
+    "insulin",
+    "mass",
+    "pedegree",
     "age",
-    "error",
     "class"
 
 
@@ -249,10 +253,15 @@ def process(request):
     X_train, X_test = train_test_split(data, test_size=0.5, random_state=int(time.time()))
     gnb = GaussianNB()
     used_features =[
-    "height",
-    "weight",
+    "pregnant",
+    "glucose",
+    "pressure",
+    "skin",
+    "insulin",
+    "mass",
+    "pedegree",
     "age",
-    "error"
+
 
     ]
     gnb.fit(
@@ -264,7 +273,9 @@ def process(request):
     print ("Dataset Lenght:: ", len(data))
     print ("Dataset Shape:: ", data.shape)
 
-    print (gnb.predict([[9,19.6,0.810,22]]))
+    predict=gnb.predict([[int(pregnant),int(glucose),int(pressure),int(skin),int(insulin),
+                         float(mass),float(pedegree),int(age)]])
+  #  print(gnb.predict([[0, 3, 0, 0, 0, 34, 2, 1]]))
 
 
 
@@ -272,7 +283,23 @@ def process(request):
 
 
     doctors =Doctors.objects.all()
+    print(predict)
 
-    context = {'member': "", 'doctors': doctors, }
+    context = {'predict': predict, 'doctors': doctors, }
     template = loader.get_template('diagnosis.html')
     return HttpResponse(template.render(context, request))
+
+def appointment(request, id):
+    # current=request.user.id
+    print("==============================================================",id)
+    appointment = Appointment.objects.get(id=id)
+    appointment.save()
+
+    return redirect('/success/')
+
+def read_appointment(request):
+
+    appointment = Appointment.objects.all()
+
+    context = {'appointment': appointment, }
+    return render(request, 'report/list.html', context)

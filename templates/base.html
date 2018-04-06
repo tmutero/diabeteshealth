@@ -29,14 +29,12 @@
                         <li role="presentation"><a href="{% url 'read_disease' %}">Diseases</a></li>
                         <li role="presentation"><a href="{% url 'read_facility' %}">Facility </a></li>
                         <li role="presentation"><a href="#">Patients</a></li>
-                        <li role="presentation"><a href="#">Users</a></li>
+                        <li role="presentation"><a href="{% url 'read_appointment' %}">Appointments</a></li>
                         <li role="presentation"><a href="#">Welcome : {{ user.username }}</a></li>
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
 
                         <li role="presentation"><a href="#">Welcome : {{ user.username }}</a></li>
-
-                        {
                         <li><a href="{% url 'logout' %}">Logout</a></li>
 
                     {% endif %}
