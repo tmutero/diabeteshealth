@@ -1,0 +1,16 @@
+{% extends 'crud/base.html' %}
+{% block body %}
+<form class="form-inline">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Firstname</label>
+        <input type="text" id="firstname" class="form-control" style="width:30%;" required="required"/>
+        <label>Lastname</label>
+        <input type="text" id="lastname" class="form-control" style="width:30%;" required="required"/>
+        <button type="button" id="create" class="btn btn-sm btn-primary">Create</button>
+    </div>
+</form>
+<br />
+<div id="result">
+</div>
+{% endblock %}

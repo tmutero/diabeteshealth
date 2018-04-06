@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Symptom{% endblock %}
+
+{% block content %}
+
+
+    <section class="content" xmlns="http://www.w3.org/1999/html">
+
+        <div class="container">
+            <!-- left column -->
+
+                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Add
+                    City
+                </button>
+                <table class="table table-bordered">
+                    <thead class="alert-success">
+
+                    <tr>
+                        <th>City Name</th>
+                        <th>Date Created</th>
+                        <th>Active</th>
+                        {% if user.is_superuser %}
+                            <th>Action</th>
+                        {% else %}
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for city in cities %}
+                        <tr>
+                            <td>{{ city.name }}</td>
+                            <td>{{ city.date_added }}</td>
+                            <td>{{ city.is_active }}</td>
+                            {% if user.is_superuser %}
+                                <td>
+                                    <center><a class="btn btn-sm btn-warning edit" name="{{ disease.id }}">Edit</a>
+                                        <a class="btn btn-sm btn-success delete" name="{{ disease.id }}">Delete</a>
+                                    </center>
+                                </td>
+                            {% else %}
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+
+        <!-- /.box-body -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add City</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <form class="form-horizontal" action="create_city" method="POST">
+                            {% csrf_token %}
+
+                            <div class="box box-warning">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Add City</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+
+                                    <!-- text input -->
+                                    <div class="form-group">
+                                        <label>Symptom </label>
+                                        <input type="text" class="form-control" placeholder="Enter city name"
+                                               name="name">
+                                    </div>
+
+                                    <div class="box-footer">
+                                        <button class="btn btn-default">Cancel</button>
+                                        <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </section>
+
+
+
+
+
+{% endblock %}

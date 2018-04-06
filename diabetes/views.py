@@ -1,11 +1,16 @@
 
-
-import  matplotlib
-
+import time
+import  matplotlib.pyplot as plt
+import pandas as pd
 import  sklearn.datasets
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils import dates
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report, confusion_matrix
 
 from django.http import HttpResponse
 from django.template import loader
@@ -193,16 +198,78 @@ def delete_doctor(request, id):
     return redirect('/city/')
 
 def process(request):
-#    trainingData = Symptoms(pregnant=request.POST['pregnant'],glucose=request.POST['glucose'],skin=request.POST['skin'],diastolic=request.POST['diastolic'],gender=request.POST['gender'],insulin=request.POST['insulin']
- #                           )
-    current=User.objects.filter(username="tmutero")
+    # trainingData = Symptoms(pregnant=request.POST['pregnant'],
+    #                         glucose=request.POST['glucose'],
+    #                         skin=request.POST['skin'],
+    #                         diastolic=request.POST['diastolic'],
+    #                         gender=request.POST['gender'],insulin=request.POST['insulin']
+    #                )
 
-    print(current)
+    pregnant = request.POST['pregnant']
+    glucose = request.POST['glucose']
+    mass = request.POST['mass']
+    skin = request.POST['skin']
+    pedegree = request.POST['pedegree']
+    # pressure = request.POST['pressure']
+    # insulin = request.POST['insulin']
+    #age = request.POST['age']
+    print("========================Data Set================================")
+    print(pregnant)
+    #print(age)
+    print(pedegree)
+    # print(insulin)
+    # print(pressure)
+    print(skin)
+    print(mass)
+    print(glucose)
+    print("________________________End Of Data Set ________________________")
 
-    # print("___________________________________________________________________")
-    # for p in Doctors.objects.raw('SELECT id ,name,sex FROM diabetes_doctors'):
-    #     print("==============================")
-    #     print(p)
+    request.user.id
+    print("-----------------------------------------------")
+    print( request.user.id)
+
+    data = pd.read_csv("uploads/dataset2.csv")
+
+# Convert categorical variable to numeric
+
+
+
+# Cleaning dataset of NaN
+    data=data[[
+    "height",
+    "weight",
+    "age",
+    "error",
+    "class"
+
+
+    ]].dropna(axis=0, how='any')
+
+# Split dataset in training and test datasets
+    X_train, X_test = train_test_split(data, test_size=0.5, random_state=int(time.time()))
+    gnb = GaussianNB()
+    used_features =[
+    "height",
+    "weight",
+    "age",
+    "error"
+
+    ]
+    gnb.fit(
+    X_train[used_features].values,
+    X_train["class"]
+    )
+    y_pred = gnb.predict(X_test[used_features])
+    print(data.head())
+    print ("Dataset Lenght:: ", len(data))
+    print ("Dataset Shape:: ", data.shape)
+
+    print (gnb.predict([[9,19.6,0.810,22]]))
+
+
+
+
+
 
     doctors =Doctors.objects.all()
 
