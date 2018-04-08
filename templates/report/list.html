@@ -1,10 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+
+
+    <ol class="breadcrumb">
+        <li><a href="#"><span>Appointments</span></a></li>
+        <li><a href="#"><span>Details</span></a></li>
+        <li class="active"><span>List </span></li>
+    </ol>
+
+    <div class="container">
+        <div class="row">
+            <!-- left column -->
+
+
+            <table class="table table-responsive" id="table">
+                <thead class="alert-success">
+
+                <tr>
+                    <th>Appointment Date</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Facility Name</th>
+                    <th>Date created</th>
+                    <th>Attended</th>
+
+                    {% if user.is_superuser %}
+                        <th>Action</th>
+                    {% else %}
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.date_added }}</td>
+                        <td>{{ appointment.user }}</td>
+                        <td>{{ appointment.doctor.name }}</td>
+                        <td>{{ appointment.doctor.facility.name }}</td>
+                        <td>{{ appointment.date_added }}</td>
+                        <td>{{ appointment.is_active }}</td>
+
+                        {% if user.is_superuser %}
+                            <td>
+                                <center><a class="btn btn-sm btn-warning edit" name="{{ appointment.id }}">Close</a>
+                                    <a class="btn btn-sm btn-success delete" name="{{ appointment.id }}">Schedule</a>
+                                </center>
+                            </td>
+                        {% else %}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+        <!-- /.box-body -->
+
+
+    </div>
+
+
+
+
+
+{% endblock %}

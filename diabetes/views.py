@@ -290,16 +290,23 @@ def process(request):
     return HttpResponse(template.render(context, request))
 
 def appointment(request, id):
-    # current=request.user.id
+
     print("==============================================================",id)
-    appointment = Appointment.objects.get(id=id)
+    doctor = Doctors.objects.get(id=id)
+    user= User.objects.get(id=request.user.id)
+    print("==================Doctor========",doctor)
+    print("==================User==========",user)
+    #appointment = Appointment.objects.get(id=id)
+
+    appointment= Appointment(user=user,doctor=doctor)
+    print("--------------------------------------------appointment",appointment)
     appointment.save()
 
     return redirect('/success/')
 
 def read_appointment(request):
 
-    appointment = Appointment.objects.all()
+    appointments = Appointment.objects.filter().order_by('-id')
 
-    context = {'appointment': appointment, }
+    context = {'appointments': appointments, }
     return render(request, 'report/list.html', context)
