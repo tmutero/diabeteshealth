@@ -15,28 +15,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Appointment',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('is_active', models.BooleanField(default=True)),
-            ],
-        ),
-        migrations.AlterField(
-            model_name='doctors',
-            name='date_created',
-            field=models.DateField(auto_now=True),
-        ),
-        migrations.AddField(
-            model_name='appointment',
-            name='doctor',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='diabetes.Doctors'),
-        ),
-        migrations.AddField(
-            model_name='appointment',
-            name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
-        ),
+
+
     ]

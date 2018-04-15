@@ -68,4 +68,15 @@ urlpatterns = [
     url(r'^process$', views.process, name='process$'),
     url(r'^appointment(?P<id>\d+)$', views.appointment, name='appointment'),
     url(r'^read_appointment$',views.read_appointment, name='read_appointment'),
+
+
+    #Patients
+#patients details
+    url(r'^create_patient$', views.create_patient, name='create_patient'),
+    url(r'^read_patient$', views.read_patient, name='read_patient'),
+    url(r'^edit_patient/(?P<id>\d+)$', views.edit_patient, name='edit_patient'),
+    url(r'^edit/update_patient/(?P<id>\d+)$', views.update_patient, name='update_patient'),
+    url(r'^view_patient_record(?P<id>\d+)$', views.view_patient_record, name='view_patient_record'),
+    #url(r'^create_patient_clinical(?P<id>\d+)$', views.create_patient_clinical, name='create_patient_clinical')
+    url(r'^create_patient_clinical$', views.create_patient_clinical, name='create_patient_clinical')
 ]

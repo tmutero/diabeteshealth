@@ -70,15 +70,36 @@ class City(models.Model):
         return self.name
 
 class Appointment(models.Model):
-    #patient
+
     doctor = models.ForeignKey('Doctors', on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-    #user = models.ForeignKey('User', on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    patient = models.OneToOneField('Patient', on_delete=models.CASCADE)
 
 
     def __unicode__(self):
         return self.name
 
+
+class Patient(models.Model):
+    patient_number=models.CharField(max_length=500,blank=True)
+    firstname=models.CharField(max_length=500, blank=True)
+    lastname=models.CharField(max_length=500, blank=True)
+    birth_date=models.DateField(null=True,blank=True)
+    gender=models.CharField(max_length=1,blank=True)
+    address=models.CharField(max_length=500, blank=True)
+    contact=models.CharField(max_length=500,blank=True)
+    date_created=models.DateField(auto_now=True)
+
+class PatientRecords(models.Model):
+    pregnant = models.CharField(max_length=50)
+    glucose = models.CharField(max_length=50)
+    pressure = models.IntegerField(blank=True, null=True)
+    skin = models.IntegerField(blank=True, null=True)
+    insulin = models.IntegerField(blank=True, null=True)
+    mass = models.CharField(max_length=50)
+    predegree = models.CharField(max_length=5, null=True)
+    date_created=models.DateField(auto_now=True)
+    patient = models.ForeignKey('Patient', on_delete=models.CASCADE)

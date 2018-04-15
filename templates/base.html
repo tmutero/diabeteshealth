@@ -25,11 +25,11 @@
                 {% if user.is_authenticated %}
                     {% if user.is_superuser %}
                         <li role="presentation"><a href="{% url 'read_doctor' %}">Doctors </a></li>
-                        <li role="presentation"><a href="{% url 'read_symptom' %}">Training Data</a></li>
+                        <li role="presentation"><a href="{% url 'read_patient' %}">Patient</a></li>
                         <li role="presentation"><a href="{% url 'read_disease' %}">Diseases</a></li>
-                        <li role="presentation"><a href="{% url 'read_facility' %}">Facility </a></li>
-                        <li role="presentation"><a href="#">Patients</a></li>
-                        <li role="presentation"><a href="{% url 'read_appointment' %}">Appointments</a></li>
+{#                        <li role="presentation"><a href="{% url 'read_facility' %}">Facility </a></li>#}
+
+                        <li role="presentation"><a href="{% url 'read_appointment' %}">Visits</a></li>
                         <li role="presentation"><a href="#">Welcome : {{ user.username }}</a></li>
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}

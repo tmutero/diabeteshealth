@@ -20,12 +20,13 @@
                 <thead class="alert-success">
 
                 <tr>
-                    <th>Appointment Date</th>
-                    <th>Patient</th>
-                    <th>Doctor</th>
-                    <th>Facility Name</th>
-                    <th>Date created</th>
-                    <th>Attended</th>
+                    <th>Visit Date</th>
+                    <th>Patient Name</th>
+                    <th>Patient Record No.</th>
+                    <th>Doctor Attended</th>
+
+                    <th>Date Attended</th>
+                    <th>Diagnosis Status</th>
 
                     {% if user.is_superuser %}
                         <th>Action</th>
@@ -37,7 +38,7 @@
                 {% for appointment in appointments %}
                     <tr>
                         <td>{{ appointment.date_added }}</td>
-                        <td>{{ appointment.user }}</td>
+                        <td>{{ appointment.patient.firstname }}</td>
                         <td>{{ appointment.doctor.name }}</td>
                         <td>{{ appointment.doctor.facility.name }}</td>
                         <td>{{ appointment.date_added }}</td>

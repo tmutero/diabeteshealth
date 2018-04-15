@@ -21,7 +21,7 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm
 from .models import City, Doctors
 from .models import Disease, Facility
-from .models import Symptoms,Appointment
+from .models import Symptoms,Appointment, Patient, PatientRecords
 
 def signup(request):
     if request.method == 'POST':
@@ -225,7 +225,7 @@ def process(request):
     print("________________________End Of Data Set ________________________")
 
     request.user.id
-    print("-----------------------------------------------")
+   # print("-----------------------------------------------")
     print( request.user.id)
 
     data = pd.read_csv("uploads/final.csv")
@@ -275,7 +275,7 @@ def process(request):
 
     predict=gnb.predict([[int(pregnant),int(glucose),int(pressure),int(skin),int(insulin),
                          float(mass),float(pedegree),int(age)]])
-  #  print(gnb.predict([[0, 3, 0, 0, 0, 34, 2, 1]]))
+#   #  print(gnb.predict([[0, 3, 0, 0, 0, 34, 2, 1]]))
 
 
 
@@ -291,15 +291,15 @@ def process(request):
 
 def appointment(request, id):
 
-    print("==============================================================",id)
-    doctor = Doctors.objects.get(id=id)
-    user= User.objects.get(id=request.user.id)
-    print("==================Doctor========",doctor)
-    print("==================User==========",user)
-    #appointment = Appointment.objects.get(id=id)
 
-    appointment= Appointment(user=user,doctor=doctor)
-    print("--------------------------------------------appointment",appointment)
+    patient = Patient.objects.get(id=id)
+    user= User.objects.get(id=request.user.id)
+    print("==================Doctor========",patient)
+    print("==================User==========",user)
+
+
+    appointment= Appointment(doctor=user,patient=patient)
+    #print("--------------------------------------------appointment",appointment)
     appointment.save()
 
     return redirect('/success/')
@@ -310,3 +310,64 @@ def read_appointment(request):
 
     context = {'appointments': appointments, }
     return render(request, 'report/list.html', context)
+
+#Patient Module
+def read_patient(request):
+    patients = Patient.objects.all()
+    print("=========================")
+    print(patients)
+    context = {'patients': patients}
+    return render(request, 'patient/list.html', context)
+
+
+def edit_patient(request, id):
+    patient = Patient.objects.get(id=id)
+    context = {'patient': patient}
+    return render(request, 'patient/edit.html', context)
+
+
+def update_patient(request, id):
+    patient = Patient.objects.get(id=id)
+    patient.firstname = request.POST['firstname']
+    patient.lastname = request.POST['lastname']
+    patient.save()
+    return redirect('/read_patient/')
+
+def view_patient_record(request, id):
+    #print("-------------------------",id)
+    patient=Patient.objects.get(id=id)
+    patient_record=PatientRecords.objects.filter(patient_id=id)
+
+    print("============================================================")
+    print(patient_record)
+
+    contex={'patient':patient,
+            'patient_record':patient_record}
+    return render(request,'patient/view.html',contex)
+
+def create_patient(request):
+
+
+    patient = Patient(firstname=request.POST['firstname'], lastname=request.POST['lastname'],
+                       contact=request.POST['contact'],address=request.POST['address'],
+                      gender=request.POST['gender'])
+
+    patient.save()
+    return redirect('read_patient')
+
+def create_patient_clinical(request):
+    patient_id=request.POST.get('patient_id')
+
+    patient_record=PatientRecords(pregnant = request.POST.get('pregnant'),
+    glucose = request.POST.get('glucose'),
+    mass = request.POST.get('mass'),
+    skin = request.POST.get('skin'),
+    predegree = request.POST.get('pedegree'),
+    pressure = request.POST.get('pressure'),
+    insulin = request.POST.get('insulin'),patient_id=patient_id
+                                  )
+    print("========================================================",patient_record)
+    patient_record.save()
+
+
+    return
