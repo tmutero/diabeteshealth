@@ -60,7 +60,7 @@ pred = model.predict(features_test)
 accuracy = accuracy_score(target_test, pred)
 print(accuracy)
 
-print (model.predict([[2,1,0,1]]))
+print (model.predict([[0,1,0,1]]))
 
 
 

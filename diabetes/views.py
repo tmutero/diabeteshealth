@@ -277,9 +277,8 @@ def process(request):
                          float(mass),float(pedegree),int(age)]])
 #   #  print(gnb.predict([[0, 3, 0, 0, 0, 34, 2, 1]]))
 
-
-
-
+    #accuracy = accuracy_score(X_train, predict)
+    #print(accuracy)
 
 
     doctors =Doctors.objects.all()
