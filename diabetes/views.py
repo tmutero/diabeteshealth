@@ -19,7 +19,7 @@ from django.contrib.auth.models import User
 
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
-from .models import City, Doctors
+from .models import City, Doctors, Profile
 from .models import Disease, Facility
 from .models import Symptoms,Appointment, Patient, PatientRecords
 
@@ -371,3 +371,14 @@ def create_patient_clinical(request):
 
 
     return
+
+def read_user(request):
+    users = User.objects.all()
+    print("=========================")
+    print(users)
+    context = {'users': users}
+    return render(request, 'user/list.html', context)
+
+def create_user(request):
+
+    return  0

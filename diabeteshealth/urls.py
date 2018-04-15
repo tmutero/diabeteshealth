@@ -78,5 +78,10 @@ urlpatterns = [
     url(r'^edit/update_patient/(?P<id>\d+)$', views.update_patient, name='update_patient'),
     url(r'^view_patient_record(?P<id>\d+)$', views.view_patient_record, name='view_patient_record'),
     #url(r'^create_patient_clinical(?P<id>\d+)$', views.create_patient_clinical, name='create_patient_clinical')
-    url(r'^create_patient_clinical$', views.create_patient_clinical, name='create_patient_clinical')
+    url(r'^create_patient_clinical$', views.create_patient_clinical, name='create_patient_clinical'),
+
+
+    #view users
+    url(r'^create_user', views.create_user, name='create_user'),
+    url(r'^read_user$', views.read_user, name='read_user')
 ]

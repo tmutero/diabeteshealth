@@ -3,6 +3,7 @@
 <title>{% block title %}Diabetes Health{% endblock %}</title>
 
 {% block content %}
+
 <div class="container">
 <div class="row">
 
@@ -71,12 +72,15 @@
                 <thead class="alert-default">
 
                 <tr>
-                    <th>Glucose Level</th>
-                    <th>Insulin</th>
-                    <th>Age</th>
-                    <th>Gender</th>
-                    <th>Contact Details</th>
-                    <th>Address</th>
+                    <th>Plasma Glucose Level</th>
+                    <th>Diastolic Pressure(mmHg)</th>
+                    <th>Triceps skin fold thickness(mm)</th>
+                    <th>Body Mass Index(BMI)</th>
+                    <th>Age(years)</th>
+                    <th>2-hour Serum Insulin(muU\ml)</th>
+                    <th>Diabetes Predegree Function</th>
+                    <th>Pregnant Times</th>
+                    <th>Date Created</th>
 
 
                 </tr>
@@ -89,16 +93,18 @@
                         <td>{{ patient_record.glucose }}</td>
                         <td>{{ patient_record.pressure }}</td>
                         <td>{{ patient_record.skin }}</td>
-                        <td>{{ patient_record.predegree }}</td>
-                        <td>{{ patient_record.mass }}</td>
+                         <td>{{ patient_record.mass }}</td>
+                        <td>{{ patient_record.patient.birth_date }}</td>
+                        <td>{{ patient_record.insulin }}</td>
 
+                        <td>{{ patient_record.predegree }}</td>
                         <td>{{ patient_record.pregnant }}</td>
                         <td>{{ patient_record.date_created }}</td>
 
                         <td>
                             <center><a class="btn btn-sm btn-warning edit" href="#">Edit</a>
-                                <a class="btn btn-sm btn-primary delete"
-                                   href="{% url 'view_patient_record'  %}">View</a>
+{#                                <a class="btn btn-sm btn-primary delete"#}
+{#                                   href="{% url 'view_patient_record'  %}">View</a>#}
                             </center>
                         </td>
 
@@ -216,10 +222,17 @@
 
 
         </div>
+    <div class="tab-pane fade" id="diagnosis">
+        <h3>YYYYYYYYYyyy</h3>
+
     </div>
 
 </div>
+    </div>
+    </div>
 </div>
+</div>
+
 
 
 
