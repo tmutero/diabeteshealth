@@ -319,7 +319,8 @@ def process(request,  precord_id,id):
     #print(accuracy)
 
     #print(predict)
-
+    if predict ==1:
+        print("Yes Yu are Diabetic")
     context = {'predict': predict, 'patient': patient, }
     template = loader.get_template('diagnosis.html')
     return HttpResponse(template.render(context, request))

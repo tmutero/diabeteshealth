@@ -1,55 +1,45 @@
-<ol class="breadcrumb">
-    <li><a href="#"><span>Results</span></a></li>
-    <li><a href="#"><span>Diabetes Types</span></a></li>
-    <li class="active"><span>List </span></li>
-</ol>
-<div class="panel panel-success">
-    <div class="panel-heading">Results</div>
-    <div class="panel-body">
-        {{ predict }}
+{% extends 'base.html' %}
 
-        {% if predict == 1 %}
-         <div>
-         <h3>Diabetes Found</h3>
-         </div>
+{% block title %}Home Page{% endblock %}
 
-        {% endif %}
+{% block content %}
+    <ol class="breadcrumb">
+        <li><a href="#"><span>Results</span></a></li>
+        <li><a href="#"><span>Diabetes Types</span></a></li>
+        <li class="active"><span>List </span></li>
+    </ol>
+    <div class="container">
+        <div class="row">
+        <div class="">
+            <h4>Patient Name- {{ patient.firstname }} {{ patient.lastname}}</h4>
+        </div>
+             <div class="panel panel-success">
+                <div class="panel-heading">Results</div>
+                <div class="panel-body">
+                    {% if predict == 1 %}
+                        <div class="alert alert-danger">
+                            <h4>Diabetes Found</h4>
+                        </div>
+
+                    {% else %}
+                        <div class="alert alert-success">
+                            <strong>Healthy No Signs of Diabetes</strong>
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+        <div class="col-md-6">
+
+        </div>
 
     </div>
-</div>
 
 
-<table class="table table-bordered">
-    <div class="alert alert-info">
-        <center></center>
-        <strong> Doctors found nearest to you</strong>
-    </div>
-    <thead class="alert-success">
-    <tr>
-        <th>Doctor</th>
-        <th>Facility</th>
-        <th>Contact Details</th>
-        <th>Distance</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for doctor in doctors %}
-        <tr>
-            <td>{{ doctor.surname }}</td>
-            <td>{{ doctor.facility.name }}</td>
-            <td>{{ doctor.contact }}</td>
-            <td></td>
-
-            <td>
-                <center><a class="btn btn-sm btn-success" href="{% url 'appointment' doctor.id %}"><span
-                        class="glyphicon glyphicon-check"></span> Place Appointment</a></center>
-            </td>
-
-
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
-</div>
+{% endblock %}
