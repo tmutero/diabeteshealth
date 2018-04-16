@@ -228,15 +228,25 @@ def process(request,  precord_id,id):
     # print("________________________End Of Data Set ________________________")
 
     request.user.id
+    patient = Patient.objects.get(id=id)
     patient_record1 = PatientRecords.objects.get(id=precord_id)
     print("======================================================",patient_record1.pregnant)
-    patient_record1.glucose
+    glucose=patient_record1.glucose
+    pregnant=patient_record1.pregnant
+    insulin=patient_record1.insulin
+    mass=patient_record1.mass
+    skin=patient_record1.skin
+    pressure=patient_record1.pressure
+    predegree=patient_record1.predegree
+    age=patient.age
+
     print("-----------------------------------------------",patient_record1)
 
 
     print("--------------------------------Record Value------------------------------------------------------------",precord_id)
     print( "-=========================================--Patient----------------------------------------",id)
-    patient_record=PatientRecords.objects
+
+
     data = pd.read_csv("uploads/final.csv")
 
 # Convert categorical variable to numeric
@@ -282,19 +292,16 @@ def process(request,  precord_id,id):
     print ("Dataset Lenght:: ", len(data))
     print ("Dataset Shape:: ", data.shape)
 
-   # predict=gnb.predict([[int(pregnant),int(glucose),int(pressure),int(skin),int(insulin),
-        #                 float(mass),float(pedegree),int(age)]])
+    predict=gnb.predict([pregnant,glucose,pressure,skin,insulin,
+                        mass,predegree,age])
 #   #  print(gnb.predict([[0, 3, 0, 0, 0, 34, 2, 1]]))
 
     #accuracy = accuracy_score(X_train, predict)
     #print(accuracy)
 
-
-    patient =Patient.objects.filter(id=id)
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1",patient)
     #print(predict)
 
-    context = {'predict': "", 'patient': "patient", }
+    context = {'predict': predict, 'patient': patient, }
     template = loader.get_template('diagnosis.html')
     return HttpResponse(template.render(context, request))
 

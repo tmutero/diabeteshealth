@@ -38,6 +38,7 @@
                     <tr>
                         <td>{{ patient.firstname }}</td>
                         <td>{{ patient.lastname }}</td>
+                        {% now "Y" as current_year %}
                         <td>{{ patient.age }}</td>
                         <td>{{ patient.gender }}</td>
                         <td>{{ patient.contact }}</td>
