@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'diabetes.apps.DiabetesConfig',
-    'django.contrib.gis',
+
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

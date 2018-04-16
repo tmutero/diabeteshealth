@@ -1,37 +1,62 @@
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{##}
+{#    <div class="container">#}
+{##}
+{##}
+{#        <h3 class=""> Register</h3>#}
+{#        <form action="{% url 'signup' %}" method="post" class="form-group">#}
+{#            {% csrf_token %}#}
+{##}
+{#            {% for field in form %}#}
+{##}
+{#                <div>#}
+{##}
+{#                <label for="{{ field.id_for_label }}"> {{ field.html_name }}</label>#}
+{##}
+{##}
+{#                {{ field }}#}
+{#                </div>#}
+{##}
+{##}
+{#                    {% for error in field.errors %}#}
+{#                        <p class="alert alert-warning">{{ error }}</p>#}
+{##}
+{#                {% endfor %}#}
+{##}
+{#            {% endfor %}#}
+{#            <button class="btn btn-primary">Sign Up</button>#}
+{##}
+{#        </form>#}
+{##}
+{##}
+{#    </div>#}
+{##}
+{##}
+{#{% endblock %}#}
 {% extends 'base.html' %}
 
 {% block content %}
-
-    <div class="container">
-
-
-        <h3 class=""> Register</h3>
-        <form action="{% url 'signup' %}" method="post" class="form-group">
-            {% csrf_token %}
-
-            {% for field in form %}
-
-                <div>
-
-                <label for="{{ field.id_for_label }}"> {{ field.html_name }}</label>
-
-
-                {{ field }}
-                </div>
-
-
-                    {% for error in field.errors %}
-                        <p class="alert alert-warning">{{ error }}</p>
-
-                {% endfor %}
-
-            {% endfor %}
-            <button class="btn btn-primary">Sign Up</button>
-
-        </form>
-
+<div class="container">
+<div class="row">
+    <div class="col-md-3">
 
     </div>
 
+     <div class="col-md-6" style="background-color: #fff">
+
+        <form method="post" novalidate>
+  {% csrf_token %}
+  {% include 'includes/bs4_form.html' with form=form %}
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+    </div>
+     <div class="col-md-3">
+
+    </div>
+
+</div>
+</div>
 
 {% endblock %}

@@ -5,7 +5,7 @@
 {% block content %}
 
 
-<ol class="breadcrumb">
+    <ol class="breadcrumb">
         <li><a href="#"><span>Facility</span></a></li>
         <li><a href="#"><span>Details</span></a></li>
         <li class="active"><span>List </span></li>
@@ -15,19 +15,17 @@
         <div class="row">
             <!-- left column -->
 
-            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Add
-                User
-            </button>
+
             <table class="table table-responsive" id="table">
                 <thead class="alert-success">
 
                 <tr>
-                    <th>user</th>
-                    <th>user</th>
-                    <th>user</th>
-                    <th>user</th>
-                    <th>user</th>
-                    <th>user</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email Address</th>
+                    <th>Date Joined</th>
+                    <th>Username</th>
+                    <th>Role</th>
                     {% if user.is_superuser %}
                         <th>Action</th>
                     {% else %}
@@ -40,17 +38,29 @@
                         <td>{{ user.first_name }}</td>
                         <td>{{ user.last_name }}</td>
                         <td>{{ user.email }}</td>
-                        <td>{{ user.username }}</td>
                         <td>{{ user.date_joined }}</td>
-                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.username }}</td>
+
                         {% if user.is_superuser %}
                             <td>
-                                <center><a class="btn btn-sm btn-warning edit" name="{{ user.id }}">Edit</a>
-                                    <a class="btn btn-sm btn-success delete" name="{{ user.id }}">Delete</a>
-                                </center>
+                                Admin
+                            </td>
+
+                        {% elif user.is_staff %}
+                            <td>
+                                Doctor
                             </td>
                         {% else %}
+                            <td>Nurse</td>
                         {% endif %}
+                        <td>
+                            <center><a class="btn btn-sm btn-warning edit" name="{{ user.id }}">Edit</a>
+                                <a class="btn btn-sm btn-success delete" name="{{ user.id }}">Delete</a>
+                            </center>
+
+                        </td>
+
+
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -68,52 +78,26 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add Facility</h4>
+                        <h4 class="modal-title">Add User</h4>
                     </div>
                     <div class="modal-body">
 
-                        <form class="form-horizontal" action="create_facility" method="POST">
-                            {% csrf_token %}
 
-                            <div class="box box-warning">
+                        <div class="col-md-3">
 
-                                <!-- /.box-header -->
-                                <div class="box-body">
+                        </div>
 
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>Facility name </label>
-                                        <input type="text" class="form-control" placeholder="Enter facility name"
-                                               name="name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Contact Details </label>
-                                        <input type="text" class="form-control" placeholder="Enter facility name"
-                                               name="contact">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2" for="city">City</label>
+                        <div class="col-md-6" style="background-color: #fff">
 
+                            <form method="post" novalidate>
+                                {% csrf_token %}
+                                {% include 'includes/bs4_form.html' with form=form %}
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                        <div class="col-md-3">
 
-                                        <select name="city" id="city" class="form-control">
-                                            {% for city in cities %}
-                                                <option value="{{ city.id }}">{{ city.name }}</option>
-                                            {% endfor %}
-                                        </select>
-
-                                    </div>
-
-
-                                    <div class="box-footer">
-
-                                        <button type="submit" class="btn btn-info pull-right">Submit</button>
-                                    </div>
-
-                                </div>
-                                <!-- /.box-body -->
-                            </div>
-
-                        </form>
+                        </div>
 
 
                     </div>

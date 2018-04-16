@@ -1,0 +1,103 @@
+ <div class="container" style="background-color: #fff">
+                <div class="row">
+
+                    <div id="result">
+                    </div>
+
+                </div>
+            </div>
+            <div class="container" style="background-color: #fff">
+
+                <div class="row" style="padding: 30px;">
+                    <div class="panel panel-default " style="margin-top: 50px;
+    box-shadow: 0 0 20px grey;
+    padding:0 10px 0 10px;">
+                        <div class="panel-heading"><font size="5">Diagnosis</font></div>
+                        <div class="panel-body">
+                            <div id="data">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><font size="2">Units Information</font></div>
+                                    <div class="panel-body">
+                                        <form>
+
+                                            {% csrf_token %}
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Times Of Pregnant</label>
+                                                        <input type="number" class="form-control" id="pregnant"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Glucose Concentration</label>
+                                                        <input type="text" class="form-control" id="glucose">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Diastolic Blood Pressure</label>
+                                                        <input type="number" class="form-control" id="pressure"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Age</label>
+                                                        <input type="number" class="form-control" id="age" required>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Gender</label><br>
+                                                    <label class="radio-inline"><input type="radio" id="" value="male"
+                                                                                       name="optradio">Male</label>
+                                                    <label class="radio-inline"><input type="radio" id=""
+                                                                                       value="female" name="optradio">Female</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Body Mass</label>
+                                                    <input type="number" class="form-control" id="mass" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Serum Insulin</label>
+                                                    <input type="number" class="form-control" id="insulin" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Diabetes Predegree</label>
+                                                    <input type="number" class="form-control" id="pedegree" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Triceps Skin Fold</label>
+                                                    <input type="number" class="form-control" id="skin" required>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding-top: 10px">
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn btn-danger btn-sm" id="process">
+                                                        Diagnosis &nbsp;&nbsp;<i class="fa fa-angle-double-right"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-6"></div>
+                                                <div class="col-md-4">
+
+                                                </div>
+                                            </div>
+                                        </form>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>

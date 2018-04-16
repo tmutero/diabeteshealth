@@ -18,21 +18,24 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 
 from django.shortcuts import render, redirect
-from .forms import SignUpForm
+
+from diabetes.forms import SignUpForm
 from .models import City, Doctors, Profile
 from .models import Disease, Facility
 from .models import Symptoms,Appointment, Patient, PatientRecords
 
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('home')
+            form = SignUpForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                user.refresh_from_db()  # load the profile instance created by the signal
+                user.profile.birth_date = form.cleaned_data.get('birth_date')
+                user.save()
+                raw_password = form.cleaned_data.get('password1')
+                user = authenticate(username=user.username, password=raw_password)
+                login(request, user)
+                return redirect('home')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
@@ -197,7 +200,7 @@ def delete_doctor(request, id):
     disease.delete()
     return redirect('/city/')
 
-def process(request):
+def process(request,  precord_id,id):
     # trainingData = Symptoms(pregnant=request.POST['pregnant'],
     #                         glucose=request.POST['glucose'],
     #                         skin=request.POST['skin'],
@@ -205,29 +208,35 @@ def process(request):
     #                         gender=request.POST['gender'],insulin=request.POST['insulin']
     #                )
 
-    pregnant = request.POST['pregnant']
-    glucose = request.POST['glucose']
-    mass = request.POST['mass']
-    skin = request.POST['skin']
-    pedegree = request.POST['pedegree']
-    pressure = request.POST['pressure']
-    insulin = request.POST['insulin']
-    age = request.POST['age']
-    print("========================Data Set================================")
-    print("----------Pregnanct",int(pregnant))
-    print("-----------age",age)
-    print("----------Pedegree",pedegree)
-    print("----------Insulin",insulin)
-    print("----------Pressure",pressure)
-    print("----------Skin",skin)
-    print("----------MAss",mass)
-    print("----------Glucose",glucose)
-    print("________________________End Of Data Set ________________________")
+    # pregnant = request.POST['pregnant']
+    # glucose = request.POST['glucose']
+    # mass = request.POST['mass']
+    # skin = request.POST['skin']
+    # pedegree = request.POST['pedegree']
+    # pressure = request.POST['pressure']
+    # insulin = request.POST['insulin']
+    # age = request.POST['age']
+    # print("========================Data Set================================")
+    # print("----------Pregnanct",int(pregnant))
+    # print("-----------age",age)
+    # print("----------Pedegree",pedegree)
+    # print("----------Insulin",insulin)
+    # print("----------Pressure",pressure)
+    # print("----------Skin",skin)
+    # print("----------MAss",mass)
+    # print("----------Glucose",glucose)
+    # print("________________________End Of Data Set ________________________")
 
     request.user.id
-   # print("-----------------------------------------------")
-    print( request.user.id)
+    patient_record1 = PatientRecords.objects.get(id=precord_id)
+    print("======================================================",patient_record1.pregnant)
+    patient_record1.glucose
+    print("-----------------------------------------------",patient_record1)
 
+
+    print("--------------------------------Record Value------------------------------------------------------------",precord_id)
+    print( "-=========================================--Patient----------------------------------------",id)
+    patient_record=PatientRecords.objects
     data = pd.read_csv("uploads/final.csv")
 
 # Convert categorical variable to numeric
@@ -273,18 +282,19 @@ def process(request):
     print ("Dataset Lenght:: ", len(data))
     print ("Dataset Shape:: ", data.shape)
 
-    predict=gnb.predict([[int(pregnant),int(glucose),int(pressure),int(skin),int(insulin),
-                         float(mass),float(pedegree),int(age)]])
+   # predict=gnb.predict([[int(pregnant),int(glucose),int(pressure),int(skin),int(insulin),
+        #                 float(mass),float(pedegree),int(age)]])
 #   #  print(gnb.predict([[0, 3, 0, 0, 0, 34, 2, 1]]))
 
     #accuracy = accuracy_score(X_train, predict)
     #print(accuracy)
 
 
-    doctors =Doctors.objects.all()
-    print(predict)
+    patient =Patient.objects.filter(id=id)
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1",patient)
+    #print(predict)
 
-    context = {'predict': predict, 'doctors': doctors, }
+    context = {'predict': "", 'patient': "patient", }
     template = loader.get_template('diagnosis.html')
     return HttpResponse(template.render(context, request))
 
@@ -349,7 +359,7 @@ def create_patient(request):
 
     patient = Patient(firstname=request.POST['firstname'], lastname=request.POST['lastname'],
                        contact=request.POST['contact'],address=request.POST['address'],
-                      gender=request.POST['gender'])
+                      gender=request.POST['gender'],birth_date=request.POST['birth_date'])
 
     patient.save()
     return redirect('read_patient')

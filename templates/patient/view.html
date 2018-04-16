@@ -4,234 +4,259 @@
 
 {% block content %}
 
-<div class="container">
-<div class="row">
+    <div class="container">
+        <div class="row">
 
 
-    <div>
-        <h3>Patient -{{ patient.firstname }} {{ patient.lastname }}</h3>
-    </div>
-    <div class="panel with-nav-tabs panel-default">
-    <div class="panel-heading">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#dashbord" data-toggle="tab">Patient Dashbord</a></li>
-            <li><a href="#clinical" data-toggle="tab">Clinical Records</a></li>
+            <div>
+                <h3>Patient -{{ patient.firstname }} {{ patient.lastname }}</h3>
+            </div>
+            <div class="panel with-nav-tabs panel-default">
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#dashbord" data-toggle="tab">Patient Dashbord</a></li>
+                        <li><a href="#clinical" data-toggle="tab">Clinical Records</a></li>
 
-            <li><a href="#diagnosis" data-toggle="tab">Diagnosis Records</a></li>
-            <li><a href="#report" data-toggle="tab">Patient Report</a></li>
+                        <li><a href="#diagnosis" data-toggle="tab">Diagnosis Records</a></li>
+                        <li><a href="#report" data-toggle="tab">Patient Report</a></li>
 
-        </ul>
-    </div>
-    <div class="panel-body">
-    <div class="tab-content">
-        <div class="tab-pane fade in active" id="dashbord">Patient Details
-            <table class="table table-bordered">
-                <tbody>
-                <tr>
-                    <th>Firstname</th>
-                    <td>{{ patient.firstname }}</td>
-                </tr>
-                <tr>
-                    <th>Surname</th>
-                    <td>{{ patient.lastname }}</td>
-                </tr>
-                <tr>
-                    <th>Gender</th>
-                    <td>{{ patient.gender }}</td>
-                </tr>
-                <tr>
-                    <th>Age</th>
-                    <td>{{ patient.firstname }}</td>
-                </tr>
-                <tr>
-                    <th>Mobile Number</th>
-                    <td>{{ patient.contact }}</td>
-                </tr>
-                <tr>
-                    <th>Address</th>
-                    <td>{{ patient.address }}</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><a class="btn btn-sm btn-warning" href="#"><span
-                            class="glyphicon glyphicon-edit"></span> Print</a>
-                        <a class="btn btn-sm btn-success" href="#"><span
-                                class="glyphicon glyphicon-pencil"></span> Update</a></td>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="dashbord">Patient Details
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <th>Firstname</th>
+                                    <td>{{ patient.firstname }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Surname</th>
+                                    <td>{{ patient.lastname }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Gender</th>
+                                    <td>{{ patient.gender }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Age</th>
+                                    <td>{{ patient.firstname }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Mobile Number</th>
+                                    <td>{{ patient.contact }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td>{{ patient.address }}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><a class="btn btn-sm btn-warning" href="#"><span
+                                            class="glyphicon glyphicon-edit"></span> Print</a>
+                                        <a class="btn btn-sm btn-success" href="#"><span
+                                                class="glyphicon glyphicon-pencil"></span> Update</a></td>
 
-                </tr>
+                                </tr>
 
-                </tbody>
-            </table>
+                                </tbody>
+                            </table>
 
-        </div>
-        <div class="tab-pane fade" id="clinical">
-            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Add
-                New Clinical Details
-            </button>
-            <table class="table table-responsive">
-                <thead class="alert-default">
-
-                <tr>
-                    <th>Plasma Glucose Level</th>
-                    <th>Diastolic Pressure(mmHg)</th>
-                    <th>Triceps skin fold thickness(mm)</th>
-                    <th>Body Mass Index(BMI)</th>
-                    <th>Age(years)</th>
-                    <th>2-hour Serum Insulin(muU\ml)</th>
-                    <th>Diabetes Predegree Function</th>
-                    <th>Pregnant Times</th>
-                    <th>Date Created</th>
-
-
-                </tr>
-                </thead>
-                <tbody>
-
-
-              {% for patient_record in patient_record %}
-                    <tr>
-                        <td>{{ patient_record.glucose }}</td>
-                        <td>{{ patient_record.pressure }}</td>
-                        <td>{{ patient_record.skin }}</td>
-                         <td>{{ patient_record.mass }}</td>
-                        <td>{{ patient_record.patient.birth_date }}</td>
-                        <td>{{ patient_record.insulin }}</td>
-
-                        <td>{{ patient_record.predegree }}</td>
-                        <td>{{ patient_record.pregnant }}</td>
-                        <td>{{ patient_record.date_created }}</td>
-
-                        <td>
-                            <center><a class="btn btn-sm btn-warning edit" href="#">Edit</a>
-{#                                <a class="btn btn-sm btn-primary delete"#}
-{#                                   href="{% url 'view_patient_record'  %}">View</a>#}
-                            </center>
-                        </td>
-
-                    </tr>
-            {% endfor %}
-
-                </tbody>
-            </table>
-
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="largeModalLabel">Patient Clinical Details</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="tab-pane fade" id="clinical">
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                                    data-target="#myModal">Add
+                                New Clinical Details
+                            </button>
+                            <table class="table table-responsive">
+                                <thead class="alert-default">
 
-                         <div class="row" style="padding: auto;">
-                    <div class="panel panel-default " style="margin-top: 50px;
+                                <tr>
+                                    <th>Plasma Glucose Level</th>
+                                    <th>Diastolic Pressure(mmHg)</th>
+                                    <th>Triceps skin fold thickness(mm)</th>
+                                    <th>Body Mass Index(BMI)</th>
+                                    <th>Age(years)</th>
+                                    <th>2-hour Serum Insulin(muU\ml)</th>
+                                    <th>Diabetes Predegree Function</th>
+                                    <th>Pregnant Times</th>
+                                    <th>Date Created</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                {% for patient_record in patient_record %}
+                                    <tr>
+                                        <td>{{ patient_record.glucose }}</td>
+                                        <td>{{ patient_record.pressure }}</td>
+                                        <td>{{ patient_record.skin }}</td>
+                                        <td>{{ patient_record.mass }}</td>
+                                        <td>{{ patient_record.patient.birth_date }}</td>
+                                        <td>{{ patient_record.insulin }}</td>
+
+                                        <td>{{ patient_record.predegree }}</td>
+                                        <td>{{ patient_record.pregnant }}</td>
+                                        <td>{{ patient_record.date_created }}</td>
+
+                                        <td>
+                                            <center><a class="btn btn-sm btn-success edit"
+                                                       href="{% url 'process'  patient_record.id patient.id%}">Diagnosis</a>
+                                                {#                                <a class="btn btn-sm btn-primary delete"#}
+                                                {#                                   href="{% url 'view_patient_record'  %}">View</a>#}
+                                            </center>
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="largeModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="largeModalLabel">Patient Clinical Details</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <div class="row" style="padding: auto;">
+                                                <div class="panel panel-default " style="margin-top: 50px;
     box-shadow: 0 0 20px grey;
     padding:0 10px 0 10px;">
-                        <div class="panel-heading"><font size="4">Enter Patient Details</font></div>
-                        <div class="panel-body">
-                            <div id="data">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading"><font size="2">Units Information</font></div>
-                                    <div class="panel-body">
-                                        <form action="create_patient_clinical" method="POST" enctype="multipart/form-data">
+                                                    <div class="panel-heading"><font size="4">Enter Patient
+                                                        Details</font></div>
+                                                    <div class="panel-body">
+                                                        <div id="data">
+                                                            <div class="panel panel-default">
+                                                                <div class="panel-heading"><font size="2">Units
+                                                                    Information</font></div>
+                                                                <div class="panel-body">
+                                                                    <form action="create_patient_clinical" method="POST"
+                                                                          enctype="multipart/form-data">
 
-                                            {% csrf_token %}
+                                                                        {% csrf_token %}
 
 
-                                              <input type="hidden" name="patient_id" value="{{ patient.id }}">
-                                            <div class="row">
+                                                                        <input type="hidden" name="patient_id"
+                                                                               value="{{ patient.id }}">
+                                                                        <div class="row">
 
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Times Of Pregnant</label>
-                                                        <input type="number" class="form-control" name="pregnant"
-                                                               required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Glucose Concentration</label>
-                                                        <input type="text" class="form-control" name="glucose">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Diastolic Blood Pressure</label>
-                                                        <input type="number" class="form-control" name="pressure"
-                                                               required>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Times Of Pregnant</label>
+                                                                                    <input type="number"
+                                                                                           class="form-control"
+                                                                                           name="pregnant"
+                                                                                           required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Glucose Concentration</label>
+                                                                                    <input type="text"
+                                                                                           class="form-control"
+                                                                                           name="glucose">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Diastolic Blood
+                                                                                        Pressure</label>
+                                                                                    <input type="number"
+                                                                                           class="form-control"
+                                                                                           name="pressure"
+                                                                                           required>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <label>Serum Insulin</label>
+                                                                                <input type="number"
+                                                                                       class="form-control"
+                                                                                       name="insulin" required>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <label>Diabetes Predegree</label>
+                                                                                <input type="number"
+                                                                                       class="form-control"
+                                                                                       name="pedegree" required>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <label>Triceps Skin Fold</label>
+                                                                                <input type="number"
+                                                                                       class="form-control" name="skin"
+                                                                                       required>
+                                                                            </div>
+
+                                                                            <div class="col-md-4">
+                                                                                <label>Body Mass</label>
+                                                                                <input type="number"
+                                                                                       class="form-control" name="mass"
+                                                                                       required>
+                                                                            </div>
+
+
+                                                                        </div>
+                                                                        <div class="row" style="padding-top: 10px">
+                                                                            <div class="col-md-2">
+                                                                                <button type="submit"
+                                                                                        class="btn btn-primary " id="">
+                                                                                    Submit &nbsp;&nbsp;<i
+                                                                                        class="fa fa-angle-double-right"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="col-md-6"></div>
+                                                                            <div class="col-md-4">
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
 
-
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <label>Serum Insulin</label>
-                                                    <input type="number" class="form-control" name="insulin" required>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>Diabetes Predegree</label>
-                                                    <input type="number" class="form-control" name="pedegree" required>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>Triceps Skin Fold</label>
-                                                    <input type="number" class="form-control" name="skin" required>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label>Body Mass</label>
-                                                    <input type="number" class="form-control" name="mass" required>
-                                                </div>
-
-
-
-                                            </div>
-                                            <div class="row" style="padding-top: 10px">
-                                                <div class="col-md-2">
-                                                    <button type="submit" class="btn btn-primary " id="">
-                                                        Submit &nbsp;&nbsp;<i class="fa fa-angle-double-right"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-md-6"></div>
-                                                <div class="col-md-4">
-
-                                                </div>
-                                            </div>
-                                        </form>
-
-
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                            {#                            <button type="submit" class="btn btn-primary">Submit</button>#}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                        </div>
-                    </div>
-                </div>
 
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-{#                            <button type="submit" class="btn btn-primary">Submit</button>#}
+                        <div class="tab-pane fade" id="diagnosis">
+                            <h3>YYYYYYYYYyyy</h3>
+
                         </div>
+
                     </div>
                 </div>
             </div>
-
-
         </div>
-    <div class="tab-pane fade" id="diagnosis">
-        <h3>YYYYYYYYYyyy</h3>
-
     </div>
-
-</div>
-    </div>
-    </div>
-</div>
-</div>
 
 
 

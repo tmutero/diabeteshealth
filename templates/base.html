@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.dataTables.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'js/bootstrap.min.js' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'js/bootstrap-datepicker.js' %}"/>
 </head>
 
 <body>
@@ -24,30 +25,21 @@
             <ul class="nav navbar-nav">
                 {% if user.is_authenticated %}
                     {% if user.is_superuser %}
-                        <li role="presentation"><a href="{% url 'read_doctor' %}">Doctors </a></li>
-                        <li role="presentation"><a href="{% url 'read_patient' %}">Patient</a></li>
+                        <li role="presentation"><a href="{% url 'read_symptom' %}">Training Data </a></li>
                         <li role="presentation"><a href="{% url 'read_disease' %}">Diseases</a></li>
-                       <li role="presentation"><a href="{% url 'read_user' %}">Users </a></li>
-
+                        <li role="presentation"><a href="{% url 'read_user' %}">Users </a></li>
                         <li role="presentation"><a href="{% url 'read_appointment' %}">Visits</a></li>
-                        <li role="presentation"><a href="#">Welcome : {{ user.username }}</a></li>
-                        <li><a href="{% url 'logout' %}">Logout</a></li>
-                    {% else %}
-
-                        <li role="presentation"><a href="#">Welcome : {{ user.username }}</a></li>
-                        <li><a href="{% url 'logout' %}">Logout</a></li>
-
                     {% endif %}
-
-
-
+                    <li role="presentation"><a href="{% url 'read_patient' %}">Patients</a></li>
+                    <li role="presentation"><a href="#">Welcome : {{ user.get_full_name }}</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'signup' %}" class="btn btn-primary navbar-btn navbar-right" role="button">
+                            Sign New User
+                        </a>
+                    {% endif %}
                 {% endif %}
-
-
-            </ul>
-            <a href="{% url 'signup' %}" class="btn btn-primary navbar-btn navbar-right" role="button">
-                SIGN UP
-            </a>
 
 
         </div>
@@ -74,10 +66,17 @@
 <script src="{% static 'js/script.js' %}"></script>
 <script src="{% static 'js/jquery.dataTables.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
         $('#table').DataTable();
+    });
+</script>
+<script type="text/javascript">
+    $('.datepicker').datepicker({
+        format: 'mm/dd/yyyy',
+        startDate: '-3d'
     });
 </script>
 </html>
