@@ -82,6 +82,8 @@ urlpatterns = [
 
 
     #view users
-    url(r'^create_user', views.create_user, name='create_user'),
-    url(r'^read_user$', views.read_user, name='read_user')
+    url(r'^create_user$', views.create_user, name='create_user'),
+    url(r'^read_user$', views.read_user, name='read_user'),
+    url(r'^report$', views.report, name='report'),
+    url(r'^diagnosed$', views.diagnosed, name='diagnosed')
 ]

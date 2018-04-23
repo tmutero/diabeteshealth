@@ -6,68 +6,34 @@
 
 
     <ol class="breadcrumb">
-        <li><a href="#"><span>Appointments</span></a></li>
+        <li><a href="#"><span>Report </span></a></li>
         <li><a href="#"><span>Details</span></a></li>
         <li class="active"><span>List </span></li>
     </ol>
+     <div class="container">
+                <div class="animated fadeIn">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <section class="card">
+                                <div class="card-body text-secondary"><h4>Diabetic Patients Distribution</h4></div>
+                                <div id="chart"></div>
+                            </section>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <section class="card">
+                                <div class="card-body text-secondary"><h4>PDF Reports</h4></div>
+                                  <li role="presentation"><a href="{% url 'diagnosed' %}">Patients Diagnosed</a></li>
 
-    <div class="container">
-        <div class="row">
-            <!-- left column -->
-
-
-            <table class="table table-responsive" id="table">
-                <thead class="alert-success">
-
-                <tr>
-                    <th>Visit Date</th>
-                    <th>Patient Name</th>
-                    <th>Patient Record No.</th>
-                    <th>Doctor Attended</th>
-
-                    <th>Date Attended</th>
-                    <th>Diagnosis Status</th>
-
-                    {% if user.is_superuser %}
-                        <th>Action</th>
-                    {% else %}
-                    {% endif %}
-                </tr>
-                </thead>
-                <tbody>
-                {% for appointment in appointments %}
-                    <tr>
-                        <td>{{ appointment.date_added }}</td>
-                        <td>{{ appointment.patient.firstname }}</td>
-                        <td>{{ appointment.doctor.name }}</td>
-                        <td>{{ appointment.doctor.facility.name }}</td>
-                        <td>{{ appointment.date_added }}</td>
-                        <td>{{ appointment.is_active }}</td>
-
-                        {% if user.is_superuser %}
-                            <td>
-                                <center><a class="btn btn-sm btn-warning edit" name="{{ appointment.id }}">Close</a>
-                                    <a class="btn btn-sm btn-success delete" name="{{ appointment.id }}">Schedule</a>
-                                </center>
-                            </td>
-                        {% else %}
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-        </div>
-
-
-        <!-- /.box-body -->
-
-
-    </div>
-
-
-
-
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+  Highcharts.chart('chart', {{ chart|safe }});
+</script>
 
 {% endblock %}

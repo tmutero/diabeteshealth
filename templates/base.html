@@ -28,7 +28,7 @@
                         <li role="presentation"><a href="{% url 'read_symptom' %}">Training Data </a></li>
                         <li role="presentation"><a href="{% url 'read_disease' %}">Diseases</a></li>
                         <li role="presentation"><a href="{% url 'read_user' %}">Users </a></li>
-                        <li role="presentation"><a href="{% url 'read_appointment' %}">Visits</a></li>
+                        <li role="presentation"><a href="{% url 'report' %}">Reports</a></li>
                     {% endif %}
                     <li role="presentation"><a href="{% url 'read_patient' %}">Patients</a></li>
                     <li role="presentation"><a href="#">Welcome : {{ user.get_full_name }}</a></li>
@@ -79,4 +79,6 @@
         startDate: '-3d'
     });
 </script>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+
 </html>

@@ -3,3 +3,5 @@ Sunny,Hot,High,Weak,No
 Sunny,Hot,High,Strong,No
 Overcast,Hot,High,Weak,Yes
 Rain,Mild,High,Weak,Yes
+Sunny,Cold,Low,Weak,Yes
+Sunny,Mild,High,Strong,No

@@ -52,7 +52,7 @@ class Symptoms(models.Model):
     mass = models.CharField(max_length=50)
     predegree = models.CharField(max_length=5, null=True)
     age=models.CharField(max_length=30,blank=True, null=True)
-    variable=models.IntegerField(blank=True, null=True)
+    variable=models.BooleanField(default=False)
 
 
 

@@ -1,27 +1,24 @@
 import time
-import  matplotlib.pyplot as plt
 import pandas as pd
-import  sklearn.datasets
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.utils import dates
-from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import classification_report, confusion_matrix
-
-from django.http import HttpResponse
-from django.template import loader
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
-
+from django.core.files.storage import FileSystemStorage
+from django.db.models import Count, Q
 from django.shortcuts import render, redirect
+from django.template import loader
+
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+import json
+
 
 from diabetes.forms import SignUpForm
-from .models import City, Doctors, Profile
+from .models import City, Doctors
 from .models import Disease, Facility
-from .models import Symptoms,Appointment, Patient, PatientRecords
+from .models import Symptoms, Appointment, Patient, PatientRecords
+
+from django.http import HttpResponse
+
 
 def signup(request):
     if request.method == 'POST':
@@ -300,7 +297,7 @@ def process(request,  precord_id,id):
     X_train[used_features].values,
     X_train["class"]
     )
-    y_pred = gnb.predict(X_test[used_features])
+   # y_pred = gnb.predict(X_test[used_features])
     print(data.head())
     print ("Dataset Lenght:: ", len(data))
     print ("Dataset Shape:: ", data.shape)
@@ -406,7 +403,7 @@ def create_patient_clinical(request):
     patient_record.save()
 
 
-    return
+    return redirect('view_patient_record',patient_id)
 
 def read_user(request):
     users = User.objects.all()
@@ -415,6 +412,52 @@ def read_user(request):
     context = {'users': users}
     return render(request, 'user/list.html', context)
 
-def create_user(request):
+def report(request):
+    dataset = Symptoms.objects \
+        .values('variable') \
+        .annotate(variable_count=Count('variable', filter=Q(variable=True)),
+                  not_variable_count=Count('variable', filter=Q(variable=False))) \
+        .order_by('variable')
 
-    return  0
+
+    categories = list()
+    survived_series_data = list()
+    not_survived_series_data = list()
+
+    for entry in dataset:
+        categories.append('%s Class' % entry['variable'])
+        survived_series_data.append(entry['variable_count'])
+        not_survived_series_data.append(entry['not_variable_count'])
+
+    not_survived_series = {
+        'name': 'Diabetic Patients',
+        'data': not_survived_series_data,
+        'color': 'red'
+    }
+
+    survived_series = {
+    'name': 'Health Patients',
+    'data': survived_series_data,
+    'color': 'green'
+    }
+
+
+
+    chart = {
+    'chart': {'type': 'bar'},
+    'title': {'text': 'Patients Distribution by diabetes'},
+    'xAxis': {'categories': categories},
+    'series': [survived_series, not_survived_series]
+    }
+
+    dump = json.dumps(chart)
+
+    return render(request, 'report/list.html', {'chart': dump})
+
+def create_user(request):
+    return
+
+def diagnosed(request):
+
+
+    return

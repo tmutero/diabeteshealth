@@ -6,7 +6,7 @@
     {% if user.username %}
 
     {% else %}
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" xmlns="http://www.w3.org/1999/html">
             <li><a href="#"><span>System Aims</span></a></li>
             <li><a href="#"><span>Diabetes Types</span></a></li>
             <li class="active"><span>Treatment </span></li>
@@ -46,12 +46,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <section class="card">
-                                <div class="card-body text-secondary">System Overview</div>
+                                <div class="card-body text-secondary"><h4>System Overview</h4></div>
+                                <div id="chart"></div>
                             </section>
                         </div>
                         <div class="col-lg-6 ">
                             <section class="card">
-                                <div class="card-body text-secondary">col-lg-6</div>
+                                <div class="card-body text-secondary"><h4>Description</h4></div>
                             </section>
                         </div>
                     </div>
@@ -64,7 +65,6 @@
 
 
     {% endif %}
-
 
 
 
