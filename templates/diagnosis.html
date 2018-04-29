@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Home Page{% endblock %}
-
+<title>{% block title %}Diabetes System:: Diagnosis Page{% endblock %}</title>
 {% block content %}
     <ol class="breadcrumb">
         <li><a href="#"><span>Results</span></a></li>
@@ -11,7 +10,7 @@
     <div class="container">
         <div class="row">
         <div class="">
-            <h4>Patient Name- {{ patient.firstname }} {{ patient.lastname}}</h4>
+            <a href="{%  url 'view_patient_record' patient.id %} " ><h4>Patient Name- {{ patient.firstname }} {{ patient.lastname}}</h4></a>
         </div>
              <div class="panel panel-success">
                 <div class="panel-heading">Results</div>

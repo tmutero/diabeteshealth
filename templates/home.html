@@ -36,19 +36,41 @@
     {% if user.is_authenticated %}
         {% if user.is_superuser %}
 
- <ol class="breadcrumb">
-            <li><a href="#"><span>System Aims</span></a></li>
-            <li><a href="#"><span>Diabetes Types</span></a></li>
-            <li class="active"><span>Treatment </span></li>
-        </ol>
+            <ol class="breadcrumb">
+                <li><a href="#"><span>System Aims</span></a></li>
+                <li><a href="#"><span>Diabetes Types</span></a></li>
+                <li class="active"><span>Treatment </span></li>
+            </ol>
             <div class="container">
                 <div class="animated fadeIn">
                     <div class="row">
                         <div class="col-lg-6">
                             <section class="card">
-                                <div class="card-body text-secondary"><h4>System Overview</h4></div>
-                                <div id="chart"></div>
+                               
+                               
+
+
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h2 class="text-justify panel-title">System Overview</h2></div>
+                                    <div class="panel-body">
+                                        <span class="text-primary bg-success"> </span>
+                                         {% load static %}
+                                      <center><img src="{% static 'assets/img/diabetic2.jpg' %}"></center>
+
+                                        <p>Welcome to E-Health Diagnosis system. Diabetes Mellitus (DM)
+                                            is commonly referred as Diabetes; itis the condition in which
+                                            the body does not properly processfood for use as energy.</p>
+                                            <p>The common symptoms for thediabetic patients are frequent urination,
+                                            increased thirst,weight loss, slow-healing in wound, giddiness,
+                                            increasedhunger etc. </p>
+                                        <p>Diabetes can cause serious health
+                                            complicationsincluding heart disease, blindness, kidney
+                                            failure and lowextremityamputations</p>
+                                    </div>
+                                </div>
                             </section>
+
                         </div>
                         <div class="col-lg-6 ">
                             <section class="card">
@@ -58,7 +80,7 @@
                     </div>
                 </div>
             </div>
-        {% endif  %}
+        {% endif %}
 
 
 

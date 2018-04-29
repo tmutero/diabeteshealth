@@ -1,4 +1,6 @@
 import time
+import datetime
+
 import pandas as pd
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -11,6 +13,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 import json
 
+from .credentials import ACCOUNT_SID,MY_CELL,MY_TWILO,AUTH_TOKEN
+
 
 from diabetes.forms import SignUpForm
 from .models import City, Doctors
@@ -18,6 +22,8 @@ from .models import Disease, Facility
 from .models import Symptoms, Appointment, Patient, PatientRecords
 
 from django.http import HttpResponse
+from twilio.rest import Client
+
 
 
 def signup(request):
@@ -90,6 +96,9 @@ def read_symptom(request):
     print("=========================")
     print(symptom)
     context = {'symptom': symptom}
+
+
+    print(create_user)
     return render(request, 'trainingData/list.html', context)
 
 
@@ -188,6 +197,7 @@ def read_doctor(request):
 
     context = {'doctors': doctors,
                'facilities': facilities,}
+
     return render(request, 'doctor/list.html', context)
 
 
@@ -223,7 +233,7 @@ def process(request,  precord_id,id):
     # print("----------Glucose",glucose)
     # print("________________________End Of Data Set ________________________")
 
-    request.user.id
+    current_user=request.user.id
     patient = Patient.objects.get(id=id)
     patient_record1 = PatientRecords.objects.get(id=precord_id)
 
@@ -262,7 +272,7 @@ def process(request,  precord_id,id):
 # Convert categorical variable to numeric
 
 
-
+#Algo
 # Cleaning dataset of NaN
     data=data[[
     "pregnant",
@@ -304,20 +314,31 @@ def process(request,  precord_id,id):
 
     predict=gnb.predict([[pregnant,glucose,pressure,skin,insulin,
                     mass,predegree,age]])
-    #   #  print(gnb.predict([[0, 3, 0, 0, 0, 34, 2, 1]]))
 
-    # accuracy = accuracy_score(X_train, predict)
-    # print(accuracy)
-    #predict=gnb.predict([pregnant,glucose,pressure,skin,insulin,
-                 #       mass,predegree,age])
-#   #  print(gnb.predict([[0, 3, 0, 0, 0, 34, 2, 1]]))
 
-    #accuracy = accuracy_score(X_train, predict)
-    #print(accuracy)
-
-    #print(predict)
     if predict ==1:
         print("Yes Yu are Diabetic")
+
+        print("-------------------------------------")
+        #PatientRecords.objects.filter(patient=id).update(diagnosed=True)
+        PatientRecords.objects.filter(Q(patient=id)& Q(id=precord_id)).update(diagnosed=True)
+        # Send Message To Patient
+        now = datetime.datetime.now()
+        now = now.strftime('%d/%m/%Y')
+        user = User.objects.get(id=request.user.id)
+
+        doctor=user.get_full_name()
+
+        client = Client(ACCOUNT_SID, AUTH_TOKEN)
+
+        message = client.messages.create(
+            body="Dear Patient-"+patient.firstname+" "+patient.lastname+" your test for Diabetic are negative please "
+                                                                        "visit hospital for assistance. "
+                                                                        "Doctor Diagnosed:"+""+doctor+""+""+
+                                                                        "Date Diagnosed:"+" "+now,
+            to="+263"+patient.contact,
+            from_="+14252875226",)
+    print("----------------------------------------------",message)
     context = {'predict': predict, 'patient': patient, }
     template = loader.get_template('diagnosis.html')
     return HttpResponse(template.render(context, request))
@@ -340,6 +361,7 @@ def appointment(request, id):
 def read_appointment(request):
 
     appointments = Appointment.objects.filter().order_by('-id')
+
 
     context = {'appointments': appointments, }
     return render(request, 'report/list.html', context)
@@ -458,6 +480,8 @@ def create_user(request):
     return
 
 def diagnosed(request):
+    patient_clinicals=PatientRecords.objects.filter(diagnosed=True).values('patient')
+    print("--------------------------------",patient_clinicals.patient)
 
-
-    return
+    context = {'patient_clinicals': patient_clinicals}
+    return render(request, 'report/diagnosed.html', context)

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+<title>{% block title %}Diabetes System:: Diagnosed Patients{% endblock %}</title>
+{% block content %}
+
+<div class="container">
+<div class="row">
+           <table class="table table-responsive" id="table">
+                <thead class="alert-info">
+
+                <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Diagnosed Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for patient_clinical in patient_clinicals %}
+                    <tr>
+                        <td>{{ patient_clinical.patient.firstname }}</td>
+                        <td>{{ patient_clinical.patient.lastname }}</td>
+                        <td>{{ patient_clinical.patient.age }}</td>
+                        <td>{{ patient_clinical.patient.gender }}</td>
+                        <td>{{ patient_clinical.date_created }}</td>
+                        <td><span class="label label-primary">Positive
+                        </span></td>
+
+
+                        <td>
+
+                                <a class="btn btn-sm btn-primary delete"
+                                   href="{% url 'view_patient_record' patient.id %}">View</a>
+                            </center>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+</div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

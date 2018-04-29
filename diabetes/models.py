@@ -121,4 +121,7 @@ class PatientRecords(models.Model):
     mass = models.FloatField(blank=True, null=True)
     predegree = models.FloatField(blank=True, null=True)
     date_created=models.DateField(auto_now=True)
-    patient = models.ForeignKey('Patient', on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    diagnosed=models.BooleanField(default=False)
+    status=models.BooleanField(default=False)
+
