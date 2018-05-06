@@ -2,10 +2,14 @@
 
 <title>{% block title %}Diabetes System:: Diagnosed Patients{% endblock %}</title>
 {% block content %}
-
-<div class="container">
-<div class="row">
-           <table class="table table-responsive" id="table">
+    <ol class="breadcrumb">
+        <li><a href="#"><span>Report </span></a></li>
+        <li><a href="#"><span>Details</span></a></li>
+        <li class="active"><span>List </span></li>
+    </ol>
+    <div class="container">
+        <div class="row">
+            <table class="table table-responsive" id="table">
                 <thead class="alert-info">
 
                 <tr>
@@ -15,7 +19,7 @@
                     <th>Gender</th>
                     <th>Diagnosed Date</th>
                     <th>Status</th>
-                    <th>Action</th>
+
 
                 </tr>
                 </thead>
@@ -31,19 +35,12 @@
                         </span></td>
 
 
-                        <td>
-
-                                <a class="btn btn-sm btn-primary delete"
-                                   href="{% url 'view_patient_record' patient.id %}">View</a>
-                            </center>
-                        </td>
-
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-</div>
-</div>
+        </div>
+    </div>
 
 
 

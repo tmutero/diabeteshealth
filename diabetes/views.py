@@ -46,8 +46,8 @@ def signup(request):
 # methods and functions
 # CRUD disease
 def create_disease(request):
-
-
+    if not request.user.is_authenticated:
+        return redirect('home')
     disease = Disease(name=request.POST['name'], description=request.POST['description'])
 
     disease.save()
@@ -55,6 +55,8 @@ def create_disease(request):
 
 
 def read_disease(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
     diseases = Disease.objects.all()
     context = {'diseases': diseases}
     return render(request, 'disease/list.html', context)
@@ -92,6 +94,8 @@ def create_symptom(request):
 
 
 def read_symptom(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
     symptom = Symptoms.objects.all()
     print("=========================")
     print(symptom)
@@ -109,6 +113,8 @@ def edit_symptom(request, id):
 
 
 def update_symptom(request, id):
+    if not request.user.is_authenticated:
+        return redirect('home')
     disease = Disease.objects.get(id=id)
     disease.firstname = request.POST['firstname']
     disease.lastname = request.POST['lastname']
@@ -117,6 +123,8 @@ def update_symptom(request, id):
 
 
 def delete_symptom(request, id):
+    if not request.user.is_authenticated:
+        return redirect('home')
     disease = Disease.objects.get(id=id)
     disease.delete()
     return redirect('/trainingData/')
@@ -124,8 +132,8 @@ def delete_symptom(request, id):
 
 # URLS facility
 def create_facility(request):
-
-
+    if not request.user.is_authenticated:
+        return redirect('home')
     facility = Facility(name=request.POST['name'], contact=request.POST['contact'],
                         city_id=request.POST['city'])
     print("===============================")
@@ -168,6 +176,8 @@ def create_city(request):
 
 
 def read_city(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
     cities = City.objects.all()
 
     context = {'cities': cities}
@@ -232,6 +242,8 @@ def process(request,  precord_id,id):
     # print("----------MAss",mass)
     # print("----------Glucose",glucose)
     # print("________________________End Of Data Set ________________________")
+    if not request.user.is_authenticated:
+        return redirect('home')
 
     current_user=request.user.id
     patient = Patient.objects.get(id=id)
@@ -319,8 +331,7 @@ def process(request,  precord_id,id):
     if predict ==1:
         print("Yes Yu are Diabetic")
 
-        print("-------------------------------------")
-        #PatientRecords.objects.filter(patient=id).update(diagnosed=True)
+
         PatientRecords.objects.filter(Q(patient=id)& Q(id=precord_id)).update(diagnosed=True)
         # Send Message To Patient
         now = datetime.datetime.now()
@@ -336,24 +347,25 @@ def process(request,  precord_id,id):
                                                                         "visit hospital for assistance. "
                                                                         "Doctor Diagnosed:"+""+doctor+""+""+
                                                                         "Date Diagnosed:"+" "+now,
-            to="+263"+patient.contact,
+            to="+263774226217",
             from_="+14252875226",)
-    print("----------------------------------------------",message)
+
     context = {'predict': predict, 'patient': patient, }
     template = loader.get_template('diagnosis.html')
     return HttpResponse(template.render(context, request))
 
 def appointment(request, id):
 
+    if not request.user.is_authenticated:
+        return redirect('home')
 
     patient = Patient.objects.get(id=id)
     user= User.objects.get(id=request.user.id)
-    print("==================Doctor========",patient)
-    print("==================User==========",user)
+
 
 
     appointment= Appointment(doctor=user,patient=patient)
-    #print("--------------------------------------------appointment",appointment)
+
     appointment.save()
 
     return redirect('/success/')
@@ -368,6 +380,8 @@ def read_appointment(request):
 
 #Patient Module
 def read_patient(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
     patients = Patient.objects.all()
     print("=========================")
     print(patients)
@@ -382,6 +396,8 @@ def edit_patient(request, id):
 
 
 def update_patient(request, id):
+    if not request.user.is_authenticated:
+        return redirect('home')
     patient = Patient.objects.get(id=id)
     patient.firstname = request.POST['firstname']
     patient.lastname = request.POST['lastname']
@@ -390,14 +406,19 @@ def update_patient(request, id):
 
 def view_patient_record(request, id):
     #print("-------------------------",id)
+    if not request.user.is_authenticated:
+        return redirect('home')
     patient=Patient.objects.get(id=id)
+
+    diagnosis = PatientRecords.objects.filter(patient_id=id)
     patient_record=PatientRecords.objects.filter(patient_id=id)
 
-    print("============================================================")
+    print("============================================================",diagnosis)
     print(patient_record)
 
     contex={'patient':patient,
-            'patient_record':patient_record}
+            'patient_record':patient_record,
+            'diagnosed':diagnosis,}
     return render(request,'patient/view.html',contex)
 
 def create_patient(request):
@@ -428,6 +449,8 @@ def create_patient_clinical(request):
     return redirect('view_patient_record',patient_id)
 
 def read_user(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
     users = User.objects.all()
     print("=========================")
     print(users)
@@ -447,7 +470,7 @@ def report(request):
     not_survived_series_data = list()
 
     for entry in dataset:
-        categories.append('%s Class' % entry['variable'])
+        categories.append('%s Diabetic' % entry['variable'])
         survived_series_data.append(entry['variable_count'])
         not_survived_series_data.append(entry['not_variable_count'])
 
@@ -480,8 +503,11 @@ def create_user(request):
     return
 
 def diagnosed(request):
-    patient_clinicals=PatientRecords.objects.filter(diagnosed=True).values('patient')
-    print("--------------------------------",patient_clinicals.patient)
+    if not request.user.is_authenticated:
+        return redirect('home')
+
+    patient_clinicals=PatientRecords.objects.filter(diagnosed=1)
+
 
     context = {'patient_clinicals': patient_clinicals}
     return render(request, 'report/diagnosed.html', context)

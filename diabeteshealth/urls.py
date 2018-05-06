@@ -86,4 +86,5 @@ urlpatterns = [
     url(r'^read_user$', views.read_user, name='read_user'),
     url(r'^report$', views.report, name='report'),
     url(r'^diagnosed$', views.diagnosed, name='diagnosed')
+
 ]
